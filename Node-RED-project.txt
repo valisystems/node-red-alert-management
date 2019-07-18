@@ -1,0 +1,113 @@
+Node-RED running on the LoRa gateway, or on Raspberry Pi 3.
+
+
+1. To convert incoming LoRa signaling JSON data in to the GET/POST to external web server
+
+Example of full message from LoRa input:
+
+{
+	"tmst": 1751662835,
+	"chan": 1,
+	"rfch": 0,
+	"freq": 902.5,
+	"stat": 1,
+	"modu": "LORA",
+	"datr": "SF7BW125",
+	"codr": "4/5",
+	"lsnr": 9.8,
+	"rssi": -20,
+	"opts": "0307",
+	"size": 4,
+	"fcnt": 11,
+	"cls": 0,
+	"port": 2,
+	"mhdr": "8048208800820b00",
+	"appeui": "01-01-01-01-01-01-01-01",
+	"deveui": "44-91-60-00-00-f7-be-d6",
+	"ack": false,
+	"adr": true,
+	"gweui": "00-80-00-00-a0-00-27-86",
+	"seqn": 11,
+	"time": "2018-09-20T18:33:09.105680Z",
+	"payload": "\u001b\u0006\u0003\u0000",
+	"eui": "44-91-60-00-00-f7-be-d6",
+	"_msgid": "a3ca61ef.5c35a"
+}
+
+Example of the msg.payload in hex:
+
+1b060300
+1c060301
+
+(last two are LoRa button events: 00=press; 01=release; 02=hold; 03=double-click)
+
+String has to be converted as follow:
+
+"deveui": "44-91-60-00-00-f7-be-d6"  ==> BaseName=4491600000f7bed6
+"eui": "44-91-60-00-00-f7-be-d6"  ==> SensorID=44491600000f7bed6
+"payload": "\u001b\u0006\u0003\u0000",  
+==>  from u0000 (hex mode 1b060300) ==> EventType=Alarm
+==>  from u0006 and u0003 (hex mode 1c060301) to ==> CtrlType=0603
+
+(00 = Alarm; 02 =Normal; 03 =Presense)
+
+Resulted action URL to be (GET/JSON):
+
+http://192.168.100.115/authcode/?Fid=1&BaseName=4491600000f7bed6&EventType=Alarm&SensorID=44491600000f7bed6&CtrlType=0603
+
+or by combinung MAC address of Gateway and DevUi of the button
+
+http://192.168.100.115/authcode/?Fid=1&BaseName=B827EBCB03644491600000f7bed6&EventType=Alarm&SensorID=44491600000f7bed6&CtrlType=0603
+
+
+2. Convert Incoming GET/JSON data from external HTTP, convert parameter names and re-send GET/POST to our external web server
+
+Example of incoming
+http://192.168.100.101/?mac=000237aef72b&status=1&from=bath&room=101
+
+Example of converted and sent
+http://192.168.100.115/authcode/?Fid=1&BaseName=67567567576&EventType=Alarm&SensorID=67567567576&CtrlType=A01P
+
+
+
+3. Send a GET/JSON from GPIO input (Each GPIO is a variable ControlType and has assigned value Alarm or Normal to send)
+
+for example GPIO 07 is a input, associated are ControlType 07 and event Alarm, then to send
+http://192.168.100.115/authcode/?Fid=1&BaseName=67567567576&EventType=Alarm&SensorID=67567567576&CtrlType=07
+
+and another GPIO 18 is input, associated ControlType is 07 and event Normal, then to send
+http://192.168.100.115/authcode/?Fid=1&BaseName=67567567576&EventType=Normal&SensorID=67567567576&CtrlType=07
+
+Or if to combine MAC and DevUI on event Hold (Alarm on Hold and Normal on Release)
+
+If GPIO Hold
+http://192.168.100.115/authcode/?Fid=1&BaseName=B827EBCB03644491600000f7bed6&EventType=Alarm&SensorID=67567567576&CtrlType=07
+and when same GPIO is released
+http://192.168.100.115/authcode/?Fid=1&BaseName=B827EBCB03644491600000f7bed6&EventType=Normal&SensorID=67567567576&CtrlType=07
+
+
+4. Trigger a GPIO output from external GET/JSON
+
+if for example to send to Rpi a GET (or JSON format)
+http://192.168.100.101/control?authent=password&gpio=07&turn=On
+
+
+5. Create a very simple dashboard, just as an example. i.e. Do status, Virtual DI.
+
+
+Parameters to read and create values for variables
+
+MAC address of Rpi;
+GPIO number and type;
+Digital Input Event: Press; Release; Hold; Double Click;
+Digital Output State: On; Off
+
+
+
+Full access SSH, HTTP over public IP will be provided.
+
+To provide a simple readme.txt file and comments in the end.
+
+
+
+

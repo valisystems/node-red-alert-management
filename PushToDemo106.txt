@@ -1,0 +1,61 @@
+[{
+	"id": "428e8a05.e38654",
+	"type": "debug",
+	"z": "a11f9e59.6e45e",
+	"name": "debug",
+	"active": false,
+	"console": "false",
+	"complete": "true",
+	"x": 490,
+	"y": 700,
+	"wires": []
+}, {
+	"id": "6c3b336e.2e7c9c",
+	"type": "lora in",
+	"z": "a11f9e59.6e45e",
+	"name": "",
+	"datatype": "utf8",
+	"x": 173,
+	"y": 490,
+	"wires": [
+		["469b2a4b.2f6f84", "428e8a05.e38654"]
+	]
+}, {
+	"id": "469b2a4b.2f6f84",
+	"type": "function",
+	"z": "a11f9e59.6e45e",
+	"name": "Process data",
+	"func": "\n// remove unwanted characters from strings\nmsg.deveui = (msg.deveui).replace(/-/g, '');\nmsg.eui = (msg.eui).replace(/-/g, '');\n\n\n// get event type from payload \nvar eventType = \"Alarm\";\nif( (msg.payload.charAt(3)).charCodeAt(0) === 0){\n    eventType = \"Alarm\";\n}\nelse if( (msg.payload.charAt(3)).charCodeAt(0) === 2){\n    eventType = \"Normal\";\n}\nelse if( (msg.payload.charAt(3)).charCodeAt(0) === 3){\n    eventType = \"Presense\";\n}\n\n// get ctrl type from payload\nvar ctrltype = \"\";\nvar temp1 = (msg.payload.charAt(1)).charCodeAt(0);\ntemp1 = String(temp1);\nif(temp1.length<2){\n    ctrltype += '0' + temp1\n}\nelse{\n    ctrltype += temp1\n}\ntemp1 = (msg.payload.charAt(2)).charCodeAt(0);\ntemp1 = String(temp1);\nif(temp1.length<2){\n    ctrltype += '0' + temp1\n}\nelse{\n    ctrltype += temp1\n}\n \n\n// generate url to be passed to http request node\nmsg.url = \"http://64.34.74.106/authcode/?Fid=1&BaseName=\" + \n            msg.deveui + \"&EventType=\" + eventType + \n            \"&SensorID=\" + msg.eui + \"&CtrlType=\" + ctrltype\n\nmsg.payload = \"\"\n\nreturn msg;\n\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 486,
+	"y": 483,
+	"wires": [
+		["545de715.e188f8", "fdc8fabe.b24d58"]
+	]
+}, {
+	"id": "fdc8fabe.b24d58",
+	"type": "debug",
+	"z": "a11f9e59.6e45e",
+	"name": "debug",
+	"active": false,
+	"console": "false",
+	"complete": "true",
+	"x": 670,
+	"y": 320,
+	"wires": []
+}, {
+	"id": "545de715.e188f8",
+	"type": "http request",
+	"z": "a11f9e59.6e45e",
+	"name": "",
+	"method": "use",
+	"ret": "txt",
+	"url": "",
+	"tls": "",
+	"x": 727,
+	"y": 482,
+	"wires": [
+		[]
+	]
+}]

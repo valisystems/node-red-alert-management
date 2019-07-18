@@ -1,0 +1,62 @@
+[{
+	"id": "a5466288.5a1af",
+	"type": "http in",
+	"z": "a6f2953d.883f58",
+	"name": "Incoming request",
+	"url": "/control",
+	"method": "get",
+	"upload": false,
+	"swaggerDoc": "",
+	"x": 300,
+	"y": 380,
+	"wires": [
+		["a68f462d.18fa58", "9763f777.d4ce68"]
+	]
+}, {
+	"id": "a68f462d.18fa58",
+	"type": "http response",
+	"z": "a6f2953d.883f58",
+	"name": "response",
+	"statusCode": "",
+	"headers": {},
+	"x": 510,
+	"y": 323,
+	"wires": []
+}, {
+	"id": "9763f777.d4ce68",
+	"type": "function",
+	"z": "a6f2953d.883f58",
+	"name": "Process request",
+	"func": "var mypassword = \"abcdef\"\n\nif(msg.payload.authent === mypassword){ // check if password is correct\n    \n    if(msg.payload.turn === \"on\"){\n        msg.payload = 1;\n        return msg;\n    }\n    else if(msg.payload.turn === \"off\"){\n        msg.payload = 0;\n        return msg;\n    }\n    else{\n        msg.payload = \"none\";\n        return msg\n    }\n}\nelse{\n    msg.payload = \"none\";\n    return msg\n}\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 579,
+	"y": 377,
+	"wires": [
+		["96940f52.9860b", "b967adf8.5e017"]
+	]
+}, {
+	"id": "96940f52.9860b",
+	"type": "debug",
+	"z": "a6f2953d.883f58",
+	"name": "",
+	"active": true,
+	"console": "false",
+	"complete": "true",
+	"x": 744,
+	"y": 327,
+	"wires": []
+}, {
+	"id": "b967adf8.5e017",
+	"type": "rpi-gpio out",
+	"z": "a6f2953d.883f58",
+	"name": "",
+	"pin": "40",
+	"set": "",
+	"level": "0",
+	"freq": "",
+	"out": "out",
+	"x": 830,
+	"y": 400,
+	"wires": []
+}]

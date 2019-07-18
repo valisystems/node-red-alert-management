@@ -1,0 +1,160 @@
+[{
+	"id": "a5466288.5a1af",
+	"type": "http in",
+	"z": "a6f2953d.883f58",
+	"name": "Incoming request",
+	"url": "/control",
+	"method": "get",
+	"upload": false,
+	"swaggerDoc": "",
+	"x": 300,
+	"y": 380,
+	"wires": [
+		["a68f462d.18fa58", "9763f777.d4ce68", "7969185.19860e8"]
+	]
+}, {
+	"id": "a68f462d.18fa58",
+	"type": "http response",
+	"z": "a6f2953d.883f58",
+	"name": "response",
+	"statusCode": "",
+	"headers": {},
+	"x": 510,
+	"y": 323,
+	"wires": []
+}, {
+	"id": "9763f777.d4ce68",
+	"type": "function",
+	"z": "a6f2953d.883f58",
+	"name": "Process request",
+	"func": "var mypassword = \"abcdef\"\n\nmsg.topic =\"PIN\" + msg.payload.gpio;\nif (msg.payload.gpio === \"40\"){\n    if(msg.payload.authent === mypassword){ // check if password is correct\n    \n    if(msg.payload.turn === \"on\" ){\n        msg.payload = 1;\n        return msg;\n    }\n    else if(msg.payload.turn === \"off\"){\n        msg.payload = 0;\n        return msg;\n    }\n    else{\n        msg.payload = \"none\";\n        return msg\n    }\n}\nelse{\n    msg.payload = \"none\";\n    return msg\n}\n\n}\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 560,
+	"y": 360,
+	"wires": [
+		["96940f52.9860b", "b967adf8.5e017", "a7bd0e47.d746f"]
+	]
+}, {
+	"id": "96940f52.9860b",
+	"type": "debug",
+	"z": "a6f2953d.883f58",
+	"name": "",
+	"active": true,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "true",
+	"x": 744,
+	"y": 327,
+	"wires": []
+}, {
+	"id": "b967adf8.5e017",
+	"type": "rpi-gpio out",
+	"z": "a6f2953d.883f58",
+	"name": "",
+	"pin": "40",
+	"set": true,
+	"level": "0",
+	"freq": "",
+	"out": "out",
+	"x": 830,
+	"y": 400,
+	"wires": []
+}, {
+	"id": "96b2db75.f38ad8",
+	"type": "rpi-gpio out",
+	"z": "a6f2953d.883f58",
+	"name": "",
+	"pin": "38",
+	"set": true,
+	"level": "0",
+	"freq": "",
+	"out": "out",
+	"x": 800,
+	"y": 540,
+	"wires": []
+}, {
+	"id": "7969185.19860e8",
+	"type": "function",
+	"z": "a6f2953d.883f58",
+	"name": "Process request",
+	"func": "var mypassword = \"abcdef\"\n\n\nmsg.topic =\"PIN\" + msg.payload.gpio;\nif (msg.payload.gpio === \"38\"){\n    if(msg.payload.authent === mypassword){ // check if password is correct\n    \n    if(msg.payload.turn === \"on\" ){\n        msg.payload = 1;\n        return msg;\n    }\n    else if(msg.payload.turn === \"off\"){\n        msg.payload = 0;\n        return msg;\n    }\n    else{\n        msg.payload = \"none\";\n        return msg\n    }\n}\nelse{\n    msg.payload = \"none\";\n    return msg\n}\n\n}\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 580,
+	"y": 540,
+	"wires": [
+		["96b2db75.f38ad8", "b3db28ab.f6a1f8"]
+	]
+}, {
+	"id": "a7bd0e47.d746f",
+	"type": "ui_switch",
+	"z": "a6f2953d.883f58",
+	"name": "",
+	"label": "switch",
+	"group": "22a0e6d7.dfb46a",
+	"order": 0,
+	"width": 0,
+	"height": 0,
+	"passthru": false,
+	"decouple": "true",
+	"topic": "",
+	"style": "",
+	"onvalue": "1",
+	"onvalueType": "num",
+	"onicon": "",
+	"oncolor": "",
+	"offvalue": "0",
+	"offvalueType": "num",
+	"officon": "",
+	"offcolor": "",
+	"x": 830,
+	"y": 460,
+	"wires": [
+		[]
+	]
+}, {
+	"id": "b3db28ab.f6a1f8",
+	"type": "ui_switch",
+	"z": "a6f2953d.883f58",
+	"name": "",
+	"label": "switch",
+	"group": "22a0e6d7.dfb46a",
+	"order": 0,
+	"width": 0,
+	"height": 0,
+	"passthru": false,
+	"decouple": "true",
+	"topic": "",
+	"style": "",
+	"onvalue": "1",
+	"onvalueType": "num",
+	"onicon": "",
+	"oncolor": "",
+	"offvalue": "0",
+	"offvalueType": "num",
+	"officon": "",
+	"offcolor": "",
+	"x": 830,
+	"y": 620,
+	"wires": [
+		[]
+	]
+}, {
+	"id": "22a0e6d7.dfb46a",
+	"type": "ui_group",
+	"z": "",
+	"name": "URL to Pin",
+	"tab": "ba12b6bf.4d6098",
+	"disp": true,
+	"width": "6",
+	"collapse": false
+}, {
+	"id": "ba12b6bf.4d6098",
+	"type": "ui_tab",
+	"z": "",
+	"name": "Controlledcare Station",
+	"icon": "user-md",
+	"order": 1
+}]

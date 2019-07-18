@@ -1,0 +1,76 @@
+[{
+	"id": "a59ff2d.a08871",
+	"type": "http in",
+	"z": "8a44f082.d0e83",
+	"name": "Incoming request",
+	"url": "/new/",
+	"method": "get",
+	"upload": false,
+	"swaggerDoc": "",
+	"x": 140,
+	"y": 340,
+	"wires": [
+		["948f2c5a.a406", "b2421e4f.026e3"]
+	]
+}, {
+	"id": "948f2c5a.a406",
+	"type": "http response",
+	"z": "8a44f082.d0e83",
+	"name": "response",
+	"x": 350,
+	"y": 303,
+	"wires": []
+}, {
+	"id": "b2421e4f.026e3",
+	"type": "function",
+	"z": "8a44f082.d0e83",
+	"name": "Process request",
+	"func": "\nreplace1 = \"BaseName\";  // string to be used to replace \"mac\"\n\nvar temp1 = msg.req.url;    // get url from msg object\ntemp1 = temp1.replace(\"mac\", replace1);     // replace mac in url with the preset string\n\ntemp1 = \"http://64.34.74.115/urldebug/catch\"+ temp1;    // append url base, \n\n// replace status accordingly\nif(msg.payload.status === \"1\"){ \n    temp1 = temp1.replace(\"status=1\", \"status=Alarm\");\n}\nelse if(msg.payload.status ===\"0\"){\n    temp1 = temp1.replace(\"status=0\", \"status=Normal\");\n}\n\n// http request node accepts target url under msg.url, so set this value\nmsg.url=temp1\nmsg.payload = \"\";\nreturn msg;",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 380,
+	"y": 400,
+	"wires": [
+		["9dc33500.78b188", "8393c291.9f7d1"]
+	]
+}, {
+	"id": "9dc33500.78b188",
+	"type": "debug",
+	"z": "8a44f082.d0e83",
+	"name": "",
+	"active": false,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "true",
+	"x": 584,
+	"y": 307,
+	"wires": []
+}, {
+	"id": "f83ea79c.96cb78",
+	"type": "debug",
+	"z": "8a44f082.d0e83",
+	"name": "",
+	"active": true,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "true",
+	"x": 750,
+	"y": 460,
+	"wires": []
+}, {
+	"id": "8393c291.9f7d1",
+	"type": "http request",
+	"z": "8a44f082.d0e83",
+	"name": "",
+	"method": "GET",
+	"ret": "txt",
+	"url": "",
+	"tls": "",
+	"x": 590,
+	"y": 380,
+	"wires": [
+		["f83ea79c.96cb78"]
+	]
+}]

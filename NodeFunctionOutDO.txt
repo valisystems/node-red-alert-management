@@ -1,0 +1,21 @@
+var mypassword = "abcdef"
+
+if(msg.payload.authent === mypassword){ // check if password is correct
+    
+    if(msg.payload.turn === "on"){
+        msg.payload = 1;
+        return msg;
+    }
+    else if(msg.payload.turn === "off"){
+        msg.payload = 0;
+        return msg;
+    }
+    else{
+        msg.payload = "none";
+        return msg
+    }
+}
+else{
+    msg.payload = "none";
+    return msg
+}

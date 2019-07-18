@@ -1,0 +1,3 @@
+service lv stop
+gpio readall
+sudo mono /opt/lv/Release/lv.exe

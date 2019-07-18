@@ -1,0 +1,47 @@
+
+// remove unwanted characters from strings
+msg.deveui = (msg.deveui).replace(/-/g, '');
+msg.eui = (msg.eui).replace(/-/g, '');
+
+
+// get event type from payload 
+var eventType = "Alarm";
+if( (msg.payload.charAt(3)).charCodeAt(0) === 0){
+    eventType = "Alarm";
+}
+else if( (msg.payload.charAt(3)).charCodeAt(0) === 2){
+    eventType = "Normal";
+}
+else if( (msg.payload.charAt(3)).charCodeAt(0) === 3){
+    eventType = "Presense";
+}
+
+// get ctrl type from payload
+var ctrltype = "";
+var temp1 = (msg.payload.charAt(1)).charCodeAt(0);
+temp1 = String(temp1);
+if(temp1.length<2){
+    ctrltype += '0' + temp1
+}
+else{
+    ctrltype += temp1
+}
+temp1 = (msg.payload.charAt(2)).charCodeAt(0);
+temp1 = String(temp1);
+if(temp1.length<2){
+    ctrltype += '0' + temp1
+}
+else{
+    ctrltype += temp1
+}
+ 
+
+// generate url to be passed to http request node
+msg.url = "http://64.34.74.106/authcode/?Fid=1&BaseName=" + 
+            msg.deveui + "&EventType=" + eventType + 
+            "&SensorID=" + msg.eui + "&CtrlType=" + ctrltype
+
+msg.payload = ""
+
+return msg;
+

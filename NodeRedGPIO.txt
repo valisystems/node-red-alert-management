@@ -1,0 +1,94 @@
+[{
+	"id": "ce4cd8ad.e04f08",
+	"type": "function",
+	"z": "ec6b566e.6efa38",
+	"name": "Process request",
+	"func": "var basename  = \"B827EBCB03644491600000f7bed6\";\nvar eventType = \"Alarm\";\nvar sensorID = \"67567567576\" ;\nvar ctrlType = \"07\";\n\n\n//msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=Davgggid&EventType=Normal&Sensnow67576&CtrlType=21\"\n//return msg\n\nif(msg.payload === 1){\n    eventType = \"Alarm\";\n    msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=\" + ctrlType;\n    \n    msg.payload = \"\"\n    return msg\n}\n\n\n/*\nvar previousVal = context.get(\"previousVal\")    // get the last saved value\nif(msg.payload !== previousVal){ // check if input status has changed\n    if(msg.payload === 1){\n       eventType = \"Alarm\";\n    }\n    else if(msg.payload === 0){\n       eventType = \"Normal\";\n    }\n    \n    msg.url = \"http://192.168.100.115/authcode/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=07\";\n        \n    context.set(\"previousVal\", msg.payload);\n    return msg\n}\nelse{\n    msg.payload = \"\";\n    return msg\n}\n*/",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 494,
+	"y": 301,
+	"wires": [
+		["bbed25c9.320748"]
+	]
+}, {
+	"id": "bbed25c9.320748",
+	"type": "http request",
+	"z": "ec6b566e.6efa38",
+	"name": "",
+	"method": "use",
+	"ret": "txt",
+	"url": "",
+	"tls": "",
+	"x": 737,
+	"y": 299,
+	"wires": [
+		["549728a2.f15298"]
+	]
+}, {
+	"id": "ad2c4301.6aac9",
+	"type": "function",
+	"z": "ec6b566e.6efa38",
+	"name": "Process request",
+	"func": "var basename  = \"B827EBCB03644491600000f7bed6\";\nvar eventType = \"Alarm\";\nvar sensorID = \"67567567576\" ;\nvar ctrlType = \"07\";\n\n\nif(msg.payload === 0){\n    eventType = \"Normal\";\n    msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=\" + ctrlType;\n    \n    msg.payload = \"\"\n    return msg\n}\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 489,
+	"y": 396,
+	"wires": [
+		["376c2d0a.abb962"]
+	]
+}, {
+	"id": "376c2d0a.abb962",
+	"type": "http request",
+	"z": "ec6b566e.6efa38",
+	"name": "",
+	"method": "use",
+	"ret": "txt",
+	"url": "",
+	"tls": "",
+	"x": 732,
+	"y": 394,
+	"wires": [
+		["549728a2.f15298"]
+	]
+}, {
+	"id": "b109cbb6.d78728",
+	"type": "rpi-gpio in",
+	"z": "ec6b566e.6efa38",
+	"name": "",
+	"pin": "7",
+	"intype": "up",
+	"debounce": "100",
+	"read": false,
+	"x": 260,
+	"y": 320,
+	"wires": [
+		["ce4cd8ad.e04f08"]
+	]
+}, {
+	"id": "36ab54a0.35c1dc",
+	"type": "rpi-gpio in",
+	"z": "ec6b566e.6efa38",
+	"name": "",
+	"pin": "11",
+	"intype": "up",
+	"debounce": "100",
+	"read": false,
+	"x": 270,
+	"y": 400,
+	"wires": [
+		["ad2c4301.6aac9"]
+	]
+}, {
+	"id": "549728a2.f15298",
+	"type": "debug",
+	"z": "ec6b566e.6efa38",
+	"name": "",
+	"active": true,
+	"console": "false",
+	"complete": "true",
+	"x": 910,
+	"y": 300,
+	"wires": []
+}]

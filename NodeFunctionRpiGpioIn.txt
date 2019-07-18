@@ -1,0 +1,40 @@
+var basename  = "B827EBCB03644491600000f7bed6";
+var eventType = "Alarm";
+var sensorID = "67567567576" ;
+var ctrlType = "07";
+
+
+//msg.url = "http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=Davgggid&EventType=Normal&Sensnow67576&CtrlType=21"
+//return msg
+
+if(msg.payload === 1){
+    eventType = "Alarm";
+    msg.url = "http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=" +  basename + 
+    "&EventType=" + eventType + "&SensorID=" + sensorID + "&CtrlType=" + ctrlType;
+    
+    msg.payload = ""
+    return msg
+}
+
+
+/*
+var previousVal = context.get("previousVal")    // get the last saved value
+if(msg.payload !== previousVal){ // check if input status has changed
+    if(msg.payload === 1){
+       eventType = "Alarm";
+    }
+    else if(msg.payload === 0){
+       eventType = "Normal";
+    }
+    
+    msg.url = "http://192.168.100.115/authcode/?Fid=1&BaseName=" +  basename + 
+    "&EventType=" + eventType + "&SensorID=" + sensorID + "&CtrlType=07";
+        
+    context.set("previousVal", msg.payload);
+    return msg
+}
+else{
+    msg.payload = "";
+    return msg
+}
+*/

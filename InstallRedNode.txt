@@ -1,0 +1,9 @@
+bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
+
+
+sudo apt-get install npm
+sudo npm install -g node-red-admin
+sudo apt-get i -g npm@2.x
+sudo npm install node-red-dashboard
+node-red-start
+sudo systemctl enable nodered.service
