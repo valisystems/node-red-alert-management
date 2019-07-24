@@ -1,0 +1,811 @@
+[{
+	"id": "6f48783f.09b928",
+	"type": "tab",
+	"label": "Flow 1",
+	"disabled": false,
+	"info": ""
+}, {
+	"id": "65947070.197e1",
+	"type": "tab",
+	"label": "Flow 3",
+	"disabled": false,
+	"info": ""
+}, {
+	"id": "f056a268.8ed1c",
+	"type": "tab",
+	"label": "Flow 5",
+	"disabled": false,
+	"info": ""
+}, {
+	"id": "1ac2bc1f.dcf5e4",
+	"type": "tab",
+	"label": "Flow 7",
+	"disabled": false,
+	"info": ""
+}, {
+	"id": "f3915001.3374f",
+	"type": "tab",
+	"label": "Flow 8",
+	"disabled": false,
+	"info": ""
+}, {
+	"id": "7fccbd1b.ef7b74",
+	"type": "ui_tab",
+	"z": "f056a268.8ed1c",
+	"name": "Controlledcare Station Pin",
+	"icon": "user-md",
+	"order": 1
+}, {
+	"id": "1fe3f8a5.f3d057",
+	"type": "ui_tab",
+	"z": "f3915001.3374f",
+	"name": "Controlledcare Station URL",
+	"icon": "user-md",
+	"order": 1
+}, {
+	"id": "e7862b57.4adff8",
+	"type": "ui_group",
+	"z": "f056a268.8ed1c",
+	"name": "Pin to Json",
+	"tab": "7fccbd1b.ef7b74",
+	"order": 2,
+	"disp": true,
+	"width": "6",
+	"collapse": false
+}, {
+	"id": "d0398f0.b61727",
+	"type": "ui_group",
+	"z": "f3915001.3374f",
+	"name": "URL to Pin",
+	"tab": "1fe3f8a5.f3d057",
+	"disp": true,
+	"width": "6",
+	"collapse": false
+}, {
+	"id": "d5c2d3d8.3be93",
+	"type": "ui_base",
+	"theme": {
+		"name": "theme-light",
+		"lightTheme": {
+			"default": "#0094CE",
+			"baseColor": "#0094CE",
+			"baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+			"edited": true,
+			"reset": false
+		},
+		"darkTheme": {
+			"default": "#097479",
+			"baseColor": "#097479",
+			"baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+			"edited": false
+		},
+		"customTheme": {
+			"name": "Untitled Theme 1",
+			"default": "#4B7930",
+			"baseColor": "#4B7930",
+			"baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+		},
+		"themeState": {
+			"base-color": {
+				"default": "#0094CE",
+				"value": "#0094CE",
+				"edited": false
+			},
+			"page-titlebar-backgroundColor": {
+				"value": "#0094CE",
+				"edited": false
+			},
+			"page-backgroundColor": {
+				"value": "#fafafa",
+				"edited": false
+			},
+			"page-sidebar-backgroundColor": {
+				"value": "#ffffff",
+				"edited": false
+			},
+			"group-textColor": {
+				"value": "#1bbfff",
+				"edited": false
+			},
+			"group-borderColor": {
+				"value": "#ffffff",
+				"edited": false
+			},
+			"group-backgroundColor": {
+				"value": "#ffffff",
+				"edited": false
+			},
+			"widget-textColor": {
+				"value": "#111111",
+				"edited": false
+			},
+			"widget-backgroundColor": {
+				"value": "#0094ce",
+				"edited": false
+			},
+			"widget-borderColor": {
+				"value": "#ffffff",
+				"edited": false
+			},
+			"base-font": {
+				"value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+			}
+		},
+		"angularTheme": {
+			"primary": "indigo",
+			"accents": "blue",
+			"warn": "red",
+			"background": "grey"
+		}
+	},
+	"site": {
+		"name": "Node-RED Dashboard",
+		"hideToolbar": "false",
+		"allowSwipe": "false",
+		"lockMenu": "false",
+		"allowTempTheme": "true",
+		"dateFormat": "DD/MM/YYYY",
+		"sizes": {
+			"sx": 48,
+			"sy": 48,
+			"gx": 6,
+			"gy": 6,
+			"cx": 6,
+			"cy": 6,
+			"px": 0,
+			"py": 0
+		}
+	}
+}, {
+	"id": "db850753.567898",
+	"type": "http in",
+	"z": "6f48783f.09b928",
+	"name": "Incoming request",
+	"url": "/control",
+	"method": "get",
+	"upload": false,
+	"swaggerDoc": "",
+	"x": 340,
+	"y": 300,
+	"wires": [
+		["7c17d2ad.3c539c", "dd120df5.5d049"]
+	]
+}, {
+	"id": "7c17d2ad.3c539c",
+	"type": "http response",
+	"z": "6f48783f.09b928",
+	"name": "response",
+	"statusCode": "",
+	"headers": {},
+	"x": 550,
+	"y": 243,
+	"wires": []
+}, {
+	"id": "dd120df5.5d049",
+	"type": "function",
+	"z": "6f48783f.09b928",
+	"name": "Process request",
+	"func": "var mypassword = \"abcdef\"\n\nif (msg.payload.authent === mypassword) { // check if password is correct\n    \n    if (msg.payload.turn === \"on\") {\n        msg.payload = 1;\n    }\n    else if (msg.payload.turn === \"off\") {\n        msg.payload = 0;\n    }\n    else {\n        msg.payload = \"none\";\n    }\n}\nelse {\n    msg.payload = \"none\";\n}\nreturn msg;\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 619,
+	"y": 297,
+	"wires": [
+		["75748c5b.7bba34", "887fb840.aa5bc8"]
+	]
+}, {
+	"id": "75748c5b.7bba34",
+	"type": "debug",
+	"z": "6f48783f.09b928",
+	"name": "",
+	"active": true,
+	"console": "false",
+	"complete": "true",
+	"x": 784,
+	"y": 247,
+	"wires": []
+}, {
+	"id": "887fb840.aa5bc8",
+	"type": "rpi-gpio out",
+	"z": "6f48783f.09b928",
+	"name": "",
+	"pin": "40",
+	"set": "",
+	"level": "0",
+	"freq": "",
+	"out": "out",
+	"x": 870,
+	"y": 320,
+	"wires": []
+}, {
+	"id": "9d2e1446.3f7918",
+	"type": "function",
+	"z": "65947070.197e1",
+	"name": "Process request",
+	"func": "var basename  = \"B827EBCB03644491600000f7bed6\";\nvar eventType = \"Alarm\";\nvar sensorID = \"67567567576\";\nvar ctrlType = \"07\";\n\n\n//msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=Davgggid&EventType=Normal&Sensnow67576&CtrlType=21\"\n//return msg\n\nif (msg.payload === 1) {\n    eventType = \"Alarm\";\n    msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=\" + ctrlType;\n    \n    msg.payload = \"\";\n    return msg;\n}\n\n\n/*\nvar previousVal = context.get(\"previousVal\")    // get the last saved value\nif(msg.payload !== previousVal){ // check if input status has changed\n    if(msg.payload === 1){\n       eventType = \"Alarm\";\n    }\n    else if(msg.payload === 0){\n       eventType = \"Normal\";\n    }\n    \n    msg.url = \"http://192.168.100.115/authcode/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=07\";\n        \n    context.set(\"previousVal\", msg.payload);\n    return msg\n}\nelse{\n    msg.payload = \"\";\n    return msg\n}\n*/",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 520,
+	"y": 360,
+	"wires": [
+		["e7f6543e.b0a278"]
+	]
+}, {
+	"id": "e7f6543e.b0a278",
+	"type": "http request",
+	"z": "65947070.197e1",
+	"name": "",
+	"method": "use",
+	"ret": "txt",
+	"paytoqs": false,
+	"url": "",
+	"tls": "",
+	"proxy": "",
+	"authType": "",
+	"x": 763,
+	"y": 358,
+	"wires": [
+		["cd69608c.a93bc"]
+	]
+}, {
+	"id": "870623fc.35b78",
+	"type": "function",
+	"z": "65947070.197e1",
+	"name": "Process request",
+	"func": "var basename  = \"B827EBCB03644491600000f7bed6\";\nvar eventType = \"Alarm\";\nvar sensorID = \"67567567576\";\nvar ctrlType = \"07\";\n\n\nif (msg.payload === 0) {\n    eventType = \"Normal\";\n    msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=\" + ctrlType;\n    \n    msg.payload = \"\";\n    return msg;\n}\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 515,
+	"y": 455,
+	"wires": [
+		["5447766a.1a1c68"]
+	]
+}, {
+	"id": "5447766a.1a1c68",
+	"type": "http request",
+	"z": "65947070.197e1",
+	"name": "",
+	"method": "use",
+	"ret": "txt",
+	"url": "",
+	"tls": "",
+	"x": 758,
+	"y": 453,
+	"wires": [
+		["cd69608c.a93bc"]
+	]
+}, {
+	"id": "dd92b41d.c97db8",
+	"type": "rpi-gpio in",
+	"z": "65947070.197e1",
+	"name": "",
+	"pin": "7",
+	"intype": "up",
+	"debounce": "100",
+	"read": false,
+	"x": 286,
+	"y": 379,
+	"wires": [
+		["9d2e1446.3f7918"]
+	]
+}, {
+	"id": "56c0c3be.d3c95c",
+	"type": "rpi-gpio in",
+	"z": "65947070.197e1",
+	"name": "",
+	"pin": "11",
+	"intype": "up",
+	"debounce": "100",
+	"read": false,
+	"x": 296,
+	"y": 459,
+	"wires": [
+		["870623fc.35b78"]
+	]
+}, {
+	"id": "cd69608c.a93bc",
+	"type": "debug",
+	"z": "65947070.197e1",
+	"name": "",
+	"active": true,
+	"console": "false",
+	"complete": "true",
+	"x": 936,
+	"y": 359,
+	"wires": []
+}, {
+	"id": "cce9b5db.3f3338",
+	"type": "function",
+	"z": "f056a268.8ed1c",
+	"name": "Process request",
+	"func": "var basename  = global.get(\"baseName\");\nvar eventType = \"Alarm\";\nvar sensorID = \"67567567576\";\nvar ctrlType = (msg.topic).substr(3);\n\n\n//msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=Davgggid&EventType=Normal&Sensnow67576&CtrlType=21\"\n//return msg\n\nif (msg.payload === 1) {\n    eventType = \"Alarm\";\n}\nelse {\n    eventType = \"Normal\";\n}\n\nmsg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=\" + ctrlType;\n    \nmsg.payload = \"\";\nreturn msg;\n    \n/*\nvar previousVal = context.get(\"previousVal\")    // get the last saved value\nif(msg.payload !== previousVal){ // check if input status has changed\n    if(msg.payload === 1){\n       eventType = \"Alarm\";\n    }\n    else if(msg.payload === 0){\n       eventType = \"Normal\";\n    }\n    \n    msg.url = \"http://192.168.100.115/authcode/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=07\";\n        \n    context.set(\"previousVal\", msg.payload);\n    return msg\n}\nelse{\n    msg.payload = \"\";\n    return msg\n}\n*/",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 640,
+	"y": 320,
+	"wires": [
+		["52b512dc.c180ec"]
+	]
+}, {
+	"id": "52b512dc.c180ec",
+	"type": "http request",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"method": "use",
+	"ret": "txt",
+	"url": "",
+	"tls": "",
+	"x": 883,
+	"y": 318,
+	"wires": [
+		["d3194ab4.74bb98"]
+	]
+}, {
+	"id": "aa031069.15ed9",
+	"type": "function",
+	"z": "f056a268.8ed1c",
+	"name": "Process request",
+	"func": "var basename  = global.get(\"baseName\");\nvar eventType = \"Alarm\";\nvar sensorID = \"67567567576\";\nvar ctrlType = (msg.topic).substr(3);\n\n\n//msg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=Davgggid&EventType=Normal&Sensnow67576&CtrlType=21\"\n//return msg\n\nif (msg.payload === 1) {\n    eventType = \"Alarm\";\n}\nelse {\n    eventType = \"Normal\";\n}\n\nmsg.url = \"http://64.34.74.115/urldebug/catch/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=\" + ctrlType;\n    \nmsg.payload = \"\"\nreturn msg\n    \n/*\nvar previousVal = context.get(\"previousVal\")    // get the last saved value\nif(msg.payload !== previousVal){ // check if input status has changed\n    if(msg.payload === 1){\n       eventType = \"Alarm\";\n    }\n    else if(msg.payload === 0){\n       eventType = \"Normal\";\n    }\n    \n    msg.url = \"http://192.168.100.115/authcode/?Fid=1&BaseName=\" +  basename + \n    \"&EventType=\" + eventType + \"&SensorID=\" + sensorID + \"&CtrlType=07\";\n        \n    context.set(\"previousVal\", msg.payload);\n    return msg\n}\nelse{\n    msg.payload = \"\";\n    return msg\n}\n*/\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 635,
+	"y": 415,
+	"wires": [
+		["95680edc.27782"]
+	]
+}, {
+	"id": "95680edc.27782",
+	"type": "http request",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"method": "use",
+	"ret": "txt",
+	"url": "",
+	"tls": "",
+	"x": 878,
+	"y": 413,
+	"wires": [
+		["d3194ab4.74bb98"]
+	]
+}, {
+	"id": "1de74045.fa9b8",
+	"type": "rpi-gpio in",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"pin": "7",
+	"intype": "up",
+	"debounce": "100",
+	"read": false,
+	"x": 406,
+	"y": 339,
+	"wires": [
+		["cce9b5db.3f3338"]
+	]
+}, {
+	"id": "94dda439.108018",
+	"type": "rpi-gpio in",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"pin": "11",
+	"intype": "up",
+	"debounce": "100",
+	"read": false,
+	"x": 406,
+	"y": 459,
+	"wires": [
+		["aa031069.15ed9"]
+	]
+}, {
+	"id": "d3194ab4.74bb98",
+	"type": "debug",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"active": true,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "payload",
+	"x": 1076,
+	"y": 319,
+	"wires": []
+}, {
+	"id": "425f360b.f59768",
+	"type": "inject",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"topic": "",
+	"payload": "",
+	"payloadType": "date",
+	"repeat": "",
+	"crontab": "",
+	"once": true,
+	"onceDelay": 0.1,
+	"x": 296,
+	"y": 239,
+	"wires": [
+		["f842c0d2.11a6f"]
+	]
+}, {
+	"id": "f842c0d2.11a6f",
+	"type": "exec",
+	"z": "f056a268.8ed1c",
+	"command": "cat /sys/class/net/eth0/address",
+	"addpay": true,
+	"append": "",
+	"useSpawn": "false",
+	"timer": "",
+	"oldrc": false,
+	"name": "",
+	"x": 556,
+	"y": 239,
+	"wires": [
+		["bb6b0603.31f0c8"],
+		[],
+		[]
+	]
+}, {
+	"id": "bb6b0603.31f0c8",
+	"type": "function",
+	"z": "f056a268.8ed1c",
+	"name": "set mac address",
+	"func": "global.set(\"baseName\", (msg.payload).replace(/:/gi, '') );\nreturn msg;",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 866,
+	"y": 239,
+	"wires": [
+		["d3194ab4.74bb98"]
+	]
+}, {
+	"id": "5528042c.ae9e7c",
+	"type": "debug",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"active": false,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "true",
+	"x": 696,
+	"y": 779,
+	"wires": []
+}, {
+	"id": "34a27db6.8d6ed2",
+	"type": "function",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"func": "msg.topic = \"pi/11\";\nreturn msg;",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 476,
+	"y": 659,
+	"wires": [
+		["aa031069.15ed9"]
+	]
+}, {
+	"id": "df05b97d.40da98",
+	"type": "function",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"func": "msg.topic = \"pi/7\";\nreturn msg;",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 416,
+	"y": 399,
+	"wires": [
+		["cce9b5db.3f3338"]
+	]
+}, {
+	"id": "15fd4b58.32a975",
+	"type": "delay",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"pauseType": "delay",
+	"timeout": "1",
+	"timeoutUnits": "seconds",
+	"rate": "1",
+	"nbRateUnits": "1",
+	"rateUnits": "second",
+	"randomFirst": "1",
+	"randomLast": "5",
+	"randomUnits": "seconds",
+	"drop": false,
+	"x": 326,
+	"y": 579,
+	"wires": [
+		["34a27db6.8d6ed2"]
+	]
+}, {
+	"id": "d2a428dd.741ce8",
+	"type": "http in",
+	"z": "1ac2bc1f.dcf5e4",
+	"name": "Incoming request",
+	"url": "/new/",
+	"method": "get",
+	"upload": false,
+	"swaggerDoc": "",
+	"x": 240,
+	"y": 280,
+	"wires": [
+		["93186fcf.60967", "9ed127bf.3baf78"]
+	]
+}, {
+	"id": "93186fcf.60967",
+	"type": "http response",
+	"z": "1ac2bc1f.dcf5e4",
+	"name": "response",
+	"x": 450,
+	"y": 243,
+	"wires": []
+}, {
+	"id": "9ed127bf.3baf78",
+	"type": "function",
+	"z": "1ac2bc1f.dcf5e4",
+	"name": "Process request",
+	"func": "\nreplace1 = \"BaseName\";  // string to be used to replace \"mac\"\n\nvar temp1 = msg.req.url;    // get url from msg object\ntemp1 = temp1.replace(\"mac\", replace1);     // replace mac in url with the preset string\n\ntemp1 = \"http://64.34.74.115/urldebug/catch\"+ temp1;    // append url base, \n\n// replace status accordingly\nif (msg.payload.status === \"1\") { \n    temp1 = temp1.replace(\"status=1\", \"status=Alarm\");\n}\nelse if (msg.payload.status ===\"0\") {\n    temp1 = temp1.replace(\"status=0\", \"status=Normal\");\n}\n\n// http request node accepts target url under msg.url, so set this value\nmsg.url = temp1;\nmsg.payload = \"\";\nreturn msg;",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 480,
+	"y": 340,
+	"wires": [
+		["d9d0d1a8.596d6", "d6191255.cdf19"]
+	]
+}, {
+	"id": "d9d0d1a8.596d6",
+	"type": "debug",
+	"z": "1ac2bc1f.dcf5e4",
+	"name": "",
+	"active": false,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "true",
+	"x": 684,
+	"y": 247,
+	"wires": []
+}, {
+	"id": "251bb8c5.0fbf08",
+	"type": "debug",
+	"z": "1ac2bc1f.dcf5e4",
+	"name": "",
+	"active": true,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "true",
+	"x": 850,
+	"y": 400,
+	"wires": []
+}, {
+	"id": "d6191255.cdf19",
+	"type": "http request",
+	"z": "1ac2bc1f.dcf5e4",
+	"name": "",
+	"method": "GET",
+	"ret": "txt",
+	"paytoqs": false,
+	"url": "",
+	"tls": "",
+	"proxy": "",
+	"authType": "",
+	"x": 690,
+	"y": 320,
+	"wires": [
+		["251bb8c5.0fbf08"]
+	]
+}, {
+	"id": "40146ce3.4452f4",
+	"type": "http in",
+	"z": "f3915001.3374f",
+	"name": "Incoming request",
+	"url": "/control",
+	"method": "get",
+	"upload": false,
+	"swaggerDoc": "",
+	"x": 280,
+	"y": 280,
+	"wires": [
+		["bc58167d.5a0038", "cf0bfc66.c0e5e", "dfbd65aa.11fda8"]
+	]
+}, {
+	"id": "bc58167d.5a0038",
+	"type": "http response",
+	"z": "f3915001.3374f",
+	"name": "response",
+	"statusCode": "",
+	"headers": {},
+	"x": 490,
+	"y": 223,
+	"wires": []
+}, {
+	"id": "cf0bfc66.c0e5e",
+	"type": "function",
+	"z": "f3915001.3374f",
+	"name": "Process request",
+	"func": "var mypassword = \"abcdef\"\n\nmsg.topic = \"PIN\" + msg.payload.gpio;\nif (msg.payload.gpio === \"40\") {\n    if(msg.payload.authent === mypassword){ // check if password is correct\n    \n        if (msg.payload.turn === \"on\" ) {\n            msg.payload = 1;\n        }\n        else if (msg.payload.turn === \"off\") {\n            msg.payload = 0;\n        }\n        else {\n            msg.payload = \"none\";\n        }\n    }\n    else {\n        msg.payload = \"none\";\n    }\n    return msg\n\n}\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 540,
+	"y": 260,
+	"wires": [
+		["2ffe18ba.2b9858", "4564fca.4360704", "fab19e54.4412"]
+	]
+}, {
+	"id": "2ffe18ba.2b9858",
+	"type": "debug",
+	"z": "f3915001.3374f",
+	"name": "",
+	"active": true,
+	"tosidebar": true,
+	"console": false,
+	"tostatus": false,
+	"complete": "true",
+	"targetType": "full",
+	"x": 724,
+	"y": 227,
+	"wires": []
+}, {
+	"id": "4564fca.4360704",
+	"type": "rpi-gpio out",
+	"z": "f3915001.3374f",
+	"name": "",
+	"pin": "40",
+	"set": true,
+	"level": "0",
+	"freq": "",
+	"out": "out",
+	"x": 800,
+	"y": 280,
+	"wires": []
+}, {
+	"id": "f13f24a.684ddd8",
+	"type": "rpi-gpio out",
+	"z": "f3915001.3374f",
+	"name": "",
+	"pin": "38",
+	"set": true,
+	"level": "0",
+	"freq": "",
+	"out": "out",
+	"x": 780,
+	"y": 440,
+	"wires": []
+}, {
+	"id": "dfbd65aa.11fda8",
+	"type": "function",
+	"z": "f3915001.3374f",
+	"name": "Process request",
+	"func": "var mypassword = \"abcdef\"\n\n\nmsg.topic = \"PIN\" + msg.payload.gpio;\nif (msg.payload.gpio === \"38\") {\n    if(msg.payload.authent === mypassword){ // check if password is correct\n    \n        if (msg.payload.turn === \"on\" ) {\n            msg.payload = 1;\n        }\n        else if (msg.payload.turn === \"off\") {\n            msg.payload = 0;\n        }\n        else {\n            msg.payload = \"none\";\n        }\n    }\n    else {\n        msg.payload = \"none\";\n    }\n    return msg\n\n}\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 560,
+	"y": 440,
+	"wires": [
+		["f13f24a.684ddd8", "40699cd5.af2474"]
+	]
+}, {
+	"id": "331275b2.3876ba",
+	"type": "ui_button",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"group": "e7862b57.4adff8",
+	"order": 2,
+	"width": 0,
+	"height": 0,
+	"passthru": true,
+	"label": "Alarm 11",
+	"tooltip": "",
+	"color": "",
+	"bgcolor": "red",
+	"icon": "warning",
+	"payload": "1",
+	"payloadType": "num",
+	"topic": "",
+	"x": 266,
+	"y": 759,
+	"wires": [
+		["34a27db6.8d6ed2"]
+	]
+}, {
+	"id": "e7bb3217.71568",
+	"type": "ui_button",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"group": "e7862b57.4adff8",
+	"order": 1,
+	"width": 0,
+	"height": 0,
+	"passthru": false,
+	"label": "Cancel",
+	"tooltip": "",
+	"color": "",
+	"bgcolor": "",
+	"icon": "stop",
+	"payload": "0",
+	"payloadType": "num",
+	"topic": "",
+	"x": 206,
+	"y": 459,
+	"wires": [
+		["df05b97d.40da98", "15fd4b58.32a975"]
+	]
+}, {
+	"id": "59e2751b.3ccf2c",
+	"type": "ui_button",
+	"z": "f056a268.8ed1c",
+	"name": "",
+	"group": "e7862b57.4adff8",
+	"order": 0,
+	"width": 0,
+	"height": 0,
+	"passthru": true,
+	"label": "Alarm 7",
+	"tooltip": "",
+	"color": "",
+	"bgcolor": "red",
+	"icon": "warning",
+	"payload": "1",
+	"payloadType": "num",
+	"topic": "",
+	"x": 246,
+	"y": 339,
+	"wires": [
+		["df05b97d.40da98"]
+	]
+}, {
+	"id": "fab19e54.4412",
+	"type": "ui_switch",
+	"z": "f3915001.3374f",
+	"name": "",
+	"label": "switch",
+	"tooltip": "",
+	"group": "d0398f0.b61727",
+	"order": 0,
+	"width": 0,
+	"height": 0,
+	"passthru": false,
+	"decouple": "true",
+	"topic": "",
+	"style": "",
+	"onvalue": "1",
+	"onvalueType": "num",
+	"onicon": "",
+	"oncolor": "",
+	"offvalue": "0",
+	"offvalueType": "num",
+	"officon": "",
+	"offcolor": "",
+	"x": 770,
+	"y": 340,
+	"wires": [
+		[]
+	]
+}, {
+	"id": "40699cd5.af2474",
+	"type": "ui_switch",
+	"z": "f3915001.3374f",
+	"name": "",
+	"label": "switch",
+	"tooltip": "",
+	"group": "d0398f0.b61727",
+	"order": 1,
+	"width": 0,
+	"height": 0,
+	"passthru": false,
+	"decouple": "true",
+	"topic": "",
+	"style": "",
+	"onvalue": "1",
+	"onvalueType": "num",
+	"onicon": "",
+	"oncolor": "",
+	"offvalue": "0",
+	"offvalueType": "num",
+	"officon": "",
+	"offcolor": "",
+	"x": 810,
+	"y": 520,
+	"wires": [
+		[]
+	]
+}]
