@@ -3,11 +3,11 @@ Node-red alert management software
 
 
 ### Abbreviations used:
-#### RPI -> Raspberry Pi
-#### API -> application program interface
-#### HTTP -> HypeText Transfer Protocol
-#### URL -> Uniform Resource Locator
-#### MAC -> Media Access Control
+  - RPI -> Raspberry Pi
+  - API -> application program interface
+  - HTTP -> HypeText Transfer Protocol
+  - URL -> Uniform Resource Locator
+  - MAC -> Media Access Control
 
 
 ## Flow 1
