@@ -20,12 +20,16 @@ Sample API request,
 
 http://hostaddress/control2?authent=abcdef&gpio=40&turn=on
 
+![nodered_flow_1](https://user-images.githubusercontent.com/53027462/61923756-4687cd80-af8f-11e9-9a34-50924e20dbf8.png)
+
 
 ## Flow 2
 
 Process pin state to a HTTP URL request on a EMS LvMonitor System. When pin state changes 0 -> 1 or 1 -> 0, the current flow processes this change and depending on the current state of the pin it generates an appropriate HTTP URL request to a EMS LvMonitor System. 
 
 This is primarily used to generate an event with a type Alarm or Normal, state 0 of a pin represents event type Normal and state 1 of a pin represents event type Alarm.
+
+![nodered_flow_2](https://user-images.githubusercontent.com/53027462/61923757-47206400-af8f-11e9-9946-9625c96305fe.png)
 
 
 ## Flow 3
@@ -38,6 +42,8 @@ There is a parallel action in this flow, that is completed once after the boot u
 
 Buttons are accessed from the Dashboard interface, http://hostaddress/ui and selecting Controlledcare Station Pin from the menu.
 
+![nodered_flow_3](https://user-images.githubusercontent.com/53027462/61923758-47206400-af8f-11e9-926c-f99bbf96f419.png)
+
 
 ## Flow 4
 Process incoming URL API request to generate an event sent via URL HTTP request to a EMS LvMonitor System. These can be requests sent from door locks, cameras, card readers and any other technologies with an available HTTP URL request mechanism.
@@ -45,6 +51,8 @@ Process incoming URL API request to generate an event sent via URL HTTP request 
 The incoming request is processed, and an appropriate outgoing request is prepared. A sample request,
 
 http://hostaddress/new/?mac=000237aef72b&status=1&from=bath&room=101
+
+![nodered_flow_4](https://user-images.githubusercontent.com/53027462/61923759-47206400-af8f-11e9-9b28-bd97d3ee0f78.png)
 
 
 ## Flow 5
@@ -57,3 +65,9 @@ Sample API request,
 http://hostaddress/control?authent=abcdef&gpio=40&turn=on
 
 Current pin state can be viewed by accessing the Dashboard interface, http://hostaddress/ui and selecting Controlledcare Station URL from the menu.
+
+![nodered_flow_5](https://user-images.githubusercontent.com/53027462/61923760-47b8fa80-af8f-11e9-967a-3d83e94dbd79.png)
+
+![nodered_dashboard_pin](https://user-images.githubusercontent.com/53027462/61923761-47b8fa80-af8f-11e9-94ee-93f0a4744ee5.png)
+
+![nodered_dashboard_url](https://user-images.githubusercontent.com/53027462/61923755-4687cd80-af8f-11e9-9f0e-a669262d63ba.png)
