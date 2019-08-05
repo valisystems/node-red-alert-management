@@ -1,0 +1,138 @@
+[
+    {
+        "id": "85eab961.dbd35",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ad19ced6.e2bb8",
+        "type": "http in",
+        "z": "85eab961.dbd35",
+        "name": "Incoming request",
+        "url": "/control",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 330,
+        "y": 340,
+        "wires": [
+            [
+                "58b29616.b7ad7",
+                "450b78bd.c12ff",
+                "fa8d4fdf.77682"
+            ]
+        ]
+    },
+    {
+        "id": "58b29616.b7ad7",
+        "type": "http response",
+        "z": "85eab961.dbd35",
+        "name": "response",
+        "statusCode": "",
+        "headers": {},
+        "x": 540,
+        "y": 283,
+        "wires": []
+    },
+    {
+        "id": "450b78bd.c12ff",
+        "type": "function",
+        "z": "85eab961.dbd35",
+        "name": "Process request",
+        "func": "var mypassword = \"abcdef\"\n\nif(msg.payload.authent === mypassword){ // check if password is correct\n    \n    if(msg.payload.turn === \"on\"){\n        msg.payload = 1;\n        return msg;\n    }\n    else if(msg.payload.turn === \"off\"){\n        msg.payload = 0;\n        return msg;\n    }\n    else{\n        msg.payload = \"none\";\n        return msg\n    }\n}\nelse{\n    msg.payload = \"none\";\n    return msg\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 609,
+        "y": 337,
+        "wires": [
+            [
+                "5326f25e.accbc4",
+                "a9285ee7.e15b28"
+            ]
+        ]
+    },
+    {
+        "id": "5326f25e.accbc4",
+        "type": "debug",
+        "z": "85eab961.dbd35",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 774,
+        "y": 287,
+        "wires": []
+    },
+    {
+        "id": "a9285ee7.e15b28",
+        "type": "rpi-gpio out",
+        "z": "85eab961.dbd35",
+        "name": "",
+        "pin": "40",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "x": 860,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "fa8d4fdf.77682",
+        "type": "delay",
+        "z": "85eab961.dbd35",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 540,
+        "y": 440,
+        "wires": [
+            [
+                "fa734da2.bd5eb8"
+            ]
+        ]
+    },
+    {
+        "id": "fa734da2.bd5eb8",
+        "type": "function",
+        "z": "85eab961.dbd35",
+        "name": "Process switch request",
+        "func": "var mypassword = \"12345\"\n\nmsg.url = \"localhost:11241/switch\"\n\nif(msg.payload.authent === mypassword){ // check if password is correct\n    \n    if(msg.payload.switch === \"yes\"){\n        msg.payload = \"turnon\";\n        return msg;\n    }\n    else if(msg.payload.switch === \"no\"){\n        msg.payload = \"turnoff\";\n        return msg;\n    }\n    else{\n        msg.payload = \"none\";\n        return msg\n    }\n}\nelse{\n    msg.payload = \"none\";\n    return msg\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 750,
+        "y": 480,
+        "wires": [
+            [
+                "b2690703.fe7c6"
+            ]
+        ]
+    },
+    {
+        "id": "b2690703.fe7c6",
+        "type": "http request",
+        "z": "85eab961.dbd35",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "authType": "",
+        "x": 1000,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    }
+]
