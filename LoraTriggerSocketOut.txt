@@ -1,0 +1,130 @@
+[
+    {
+        "id": "a6047ad7.aa4138",
+        "type": "debug",
+        "z": "85eab961.dbd35",
+        "name": "debug",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 650,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "5a16e093.44e46",
+        "type": "lora in",
+        "z": "85eab961.dbd35",
+        "name": "",
+        "datatype": "utf8",
+        "x": 333,
+        "y": 650,
+        "wires": [
+            [
+                "4e8a6b26.360f64",
+                "a6047ad7.aa4138",
+                "189a4540.df480b"
+            ]
+        ]
+    },
+    {
+        "id": "4e8a6b26.360f64",
+        "type": "function",
+        "z": "85eab961.dbd35",
+        "name": "Process data",
+        "func": "\n// remove unwanted characters from strings\nmsg.deveui = (msg.deveui).replace(/-/g, '');\nmsg.eui = (msg.eui).replace(/-/g, '');\n\n\n// get event type from payload \nvar eventType = \"Alarm\";\nif( (msg.payload.charAt(3)).charCodeAt(0) === 0){\n    eventType = \"Alarm\";\n}\nelse if( (msg.payload.charAt(3)).charCodeAt(0) === 2){\n    eventType = \"Normal\";\n}\nelse if( (msg.payload.charAt(3)).charCodeAt(0) === 3){\n    eventType = \"Presense\";\n}\n\n// get ctrl type from payload\nvar ctrltype = \"\";\nvar temp1 = (msg.payload.charAt(1)).charCodeAt(0);\ntemp1 = String(temp1);\nif(temp1.length<2){\n    ctrltype += '0' + temp1\n}\nelse{\n    ctrltype += temp1\n}\ntemp1 = (msg.payload.charAt(2)).charCodeAt(0);\ntemp1 = String(temp1);\nif(temp1.length<2){\n    ctrltype += '0' + temp1\n}\nelse{\n    ctrltype += temp1\n}\n \n\n// generate url to be passed to http request node\nmsg.url = \"http://64.34.74.106/authcode/?Fid=1&BaseName=\" + \n            msg.deveui + \"&EventType=\" + eventType + \n            \"&SensorID=\" + msg.eui + \"&CtrlType=\" + ctrltype\n\nmsg.payload = \"\"\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 646,
+        "y": 643,
+        "wires": [
+            [
+                "2b3e9298.c451a6",
+                "c1c4925.6a03ef"
+            ]
+        ]
+    },
+    {
+        "id": "c1c4925.6a03ef",
+        "type": "debug",
+        "z": "85eab961.dbd35",
+        "name": "debug",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 830,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "2b3e9298.c451a6",
+        "type": "http request",
+        "z": "85eab961.dbd35",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 887,
+        "y": 642,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ebc74069.5632e",
+        "type": "function",
+        "z": "85eab961.dbd35",
+        "name": "Process data",
+        "func": "\n// remove unwanted characters from strings\nmsg.deveui = (msg.deveui).replace(/-/g, '');\nmsg.eui = (msg.eui).replace(/-/g, '');\n\n\n// get event type from payload \nvar eventType = \"Alarm\";\nif( (msg.payload.charAt(3)).charCodeAt(0) === 0){\n    eventType = \"Alarm\";\n}\nelse if( (msg.payload.charAt(3)).charCodeAt(0) === 2){\n    eventType = \"Normal\";\n}\nelse if( (msg.payload.charAt(3)).charCodeAt(0) === 3){\n    eventType = \"Presense\";\n}\n\n// get ctrl type from payload\nvar ctrltype = \"\";\nvar temp1 = (msg.payload.charAt(1)).charCodeAt(0);\ntemp1 = String(temp1);\nif(temp1.length<2){\n    ctrltype += '0' + temp1\n}\nelse{\n    ctrltype += temp1\n}\ntemp1 = (msg.payload.charAt(2)).charCodeAt(0);\ntemp1 = String(temp1);\nif(temp1.length<2){\n    ctrltype += '0' + temp1\n}\nelse{\n    ctrltype += temp1\n}\n \n\n// generate url to be passed to http request node\nmsg.url = \"http://64.34.74.106/authcode/?Fid=1&BaseName=\" + \n            msg.deveui + \"&EventType=\" + eventType + \n            \"&SensorID=\" + msg.eui + \"&CtrlType=\" + ctrltype\n\nmsg.payload = \"\"\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 640,
+        "y": 380,
+        "wires": [
+            [
+                "9aaceee4.0aa848"
+            ]
+        ]
+    },
+    {
+        "id": "189a4540.df480b",
+        "type": "trigger",
+        "z": "85eab961.dbd35",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "250",
+        "extend": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "name": "",
+        "x": 480,
+        "y": 520,
+        "wires": [
+            [
+                "ebc74069.5632e"
+            ]
+        ]
+    },
+    {
+        "id": "9aaceee4.0aa848",
+        "type": "websocket out",
+        "z": "85eab961.dbd35",
+        "name": "lvhubsocket",
+        "server": "11041b62.948a55",
+        "client": "",
+        "x": 820,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "11041b62.948a55",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws/lvnodehub",
+        "wholemsg": "false"
+    }
+]
