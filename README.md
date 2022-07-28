@@ -3,7 +3,7 @@ Node-red alert management software
 
 
 ### Abbreviations used:
-  - RPI -> Raspberry Pi
+  - RPI -> RPi micro controller unit, single board
   - API -> application program interface
   - HTTP -> HypeText Transfer Protocol
   - URL -> Uniform Resource Locator
